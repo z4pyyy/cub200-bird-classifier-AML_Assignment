@@ -1,0 +1,21 @@
+{
+  "model": "resnet50",
+  "name": "abl_r50_no_ls",
+  "epochs": 40,
+  "bs": 32,
+  "lr": 0.001,
+  "backbone_lr_mult": 0.1,
+  "wd": 0.05,
+  "warmup": 3,
+  "img_size": 224,
+  "drop": 0.3,
+  "label_smoothing": 0.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "no_aug": false,
+  "light_aug": false,
+  "patience": 10,
+  "full_train": false,
+  "workers": 12,
+  "seed": 42
+}

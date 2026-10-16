@@ -97,7 +97,11 @@ def main():
     print(f"{a.run_dir} [{tag}]  top1 {m['top1']:.4f}  avg-class {m['avg_class_acc']:.4f}  top5 {m['top5']:.4f}")
 
     run = Path(a.run_dir)
-    (run / f"{tag}_metrics.json").write_text(json.dumps(m, indent=2))
+    # Merge into an existing file (train.py writes test_metrics.json with extra
+    # training info such as best_epoch) instead of overwriting it.
+    out = run / f"{tag}_metrics.json"
+    old = json.loads(out.read_text()) if out.exists() else {}
+    out.write_text(json.dumps({**old, **m}, indent=2))
     np.savez(run / f"{tag}_logits.npz", logits=logits, targets=targets)
     pd.DataFrame({
         "class_id": range(200),

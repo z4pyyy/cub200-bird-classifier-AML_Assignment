@@ -58,6 +58,16 @@ h1{font-size:22px;margin:0} h2{font-size:17px;margin:0 0 12px} h3{font-size:14px
 .top5 .track{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:4px}
 .top5 .fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
 .top5 li.truth .row span:first-child::after{content:" ✓ true";color:var(--ok);font-size:12px}
+.species-list{margin-top:12px;font-size:13px;color:var(--muted)}
+.species-list summary{cursor:pointer;list-style:none}
+.species-list summary::-webkit-details-marker{display:none}
+.species-list summary b{color:var(--ink)}
+.species-list .link{color:var(--accent);text-decoration:underline;white-space:nowrap}
+.species-list input{width:100%;margin:10px 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.species-list ul{list-style:none;margin:0;padding:0;max-height:260px;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.species-list li{display:flex;align-items:center;gap:8px;color:var(--ink)}
+.species-list li img{width:32px;height:32px;object-fit:cover;border-radius:4px;flex:none}
+.species-list li[hidden]{display:none}
 .how{margin-top:16px}
 .how svg{font:13px system-ui,sans-serif;min-width:0}
 .how .node rect{fill:var(--accent-soft);stroke:var(--line)}

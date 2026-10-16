@@ -1,0 +1,24 @@
+{
+  "model": "convnext_tiny",
+  "run": "m4_convnext_tiny_mixcut",
+  "file_mb": 56.12,
+  "fp16_weights": true,
+  "top1_agreement": 1.0,
+  "max_abs_prob_diff": 0.0009248256683349609,
+  "onnx_test": {
+    "top1": 0.8787375415282392,
+    "avg_class_acc": 0.8780892857142857,
+    "top5": 0.9775747508305648
+  },
+  "pytorch_test": {
+    "top1": 0.8787375415282392,
+    "avg_class_acc": 0.8780892857142857,
+    "top5": 0.9775747508305648
+  },
+  "cam_shape": [
+    1,
+    200,
+    7,
+    7
+  ]
+}

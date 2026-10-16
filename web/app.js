@@ -39,6 +39,7 @@ async function init() {
     meta = await (await fetch("meta.json")).json();
     renderStats();
     renderExamples();
+    renderSpeciesList();
     $("howModel").textContent = meta.model;
 
     ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/";
@@ -73,6 +74,17 @@ function renderStats() {
     ["Avg per class", pct(m.avg_class_acc)],
     ["Top-5", pct(m.top5)],
   ].map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+}
+
+// Searchable list of the 200 classes the model knows (sorted A-Z, thumbnails load lazily).
+function renderSpeciesList() {
+  const items = meta.classes.map((n, i) => ({ n, i })).sort((a, b) => a.n.localeCompare(b.n));
+  $("speciesUl").innerHTML = items.map(({ n, i }) =>
+    `<li data-name="${n.toLowerCase()}"><img src="refs/${i}.jpg" alt="" loading="lazy">${n}</li>`).join("");
+  $("speciesSearch").addEventListener("input", (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    for (const li of $("speciesUl").children) li.hidden = q && !li.dataset.name.includes(q);
+  });
 }
 
 function renderExamples() {
