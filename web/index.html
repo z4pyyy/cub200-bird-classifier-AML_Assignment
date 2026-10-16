@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bird Species Classifier</title>
+<meta name="description" content="CUB-200 bird species classifier. A CNN runs in your browser with ONNX Runtime Web.">
+<link rel="stylesheet" href="style.css">
+<!-- ONNX Runtime Web: runs the exported CNN in the browser (WebGPU, falls back to WebAssembly). -->
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.webgpu.min.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div>
+      <h1>Bird Species Classifier</h1>
+      <p class="muted">200 species · CUB-200 · CNN runs on your device</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="status" id="status" role="status">
+    <div class="bar"><div class="bar-fill" id="loadBar"></div></div>
+    <span id="statusText">Loading model…</span>
+  </section>
+
+  <section class="grid">
+    <!-- LEFT: input -->
+    <div class="card">
+      <h2>1. Choose a bird photo</h2>
+      <label class="drop" id="drop" tabindex="0">
+        <input type="file" id="file" accept="image/*" hidden>
+        <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="currentColor" d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z"/></svg>
+        <span><b>Drop</b>, <b>paste</b> or <b>click</b> to upload</span>
+        <span class="muted small">JPG / PNG · on a phone you can use the camera</span>
+      </label>
+
+      <h3>Or try a test image</h3>
+      <div class="examples" id="examples"></div>
+
+      <div class="preview" id="previewBox" hidden>
+        <div class="canvas-wrap">
+          <canvas id="view" width="448" height="448" aria-label="Model input with heatmap"></canvas>
+        </div>
+        <div class="cam-ctl">
+          <label><input type="checkbox" id="camOn" checked> Show heatmap (where the CNN looked)</label>
+          <input type="range" id="camAlpha" min="0" max="100" value="50" aria-label="Heatmap opacity">
+        </div>
+        <p class="muted small">The square is the exact 224×224 centre crop the CNN sees.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: results -->
+    <div class="card">
+      <h2>2. Prediction</h2>
+      <div id="empty" class="muted">Upload a photo or click an example.</div>
+      <div id="result" hidden>
+        <div class="top1">
+          <img id="top1Ref" alt="">
+          <div>
+            <div class="muted small">Top prediction</div>
+            <div class="species" id="top1Name"></div>
+            <div class="conf" id="top1Conf"></div>
+            <div id="truth" class="small"></div>
+          </div>
+        </div>
+        <div class="warn" id="lowConf" hidden>Low confidence. The bird may not be one of the 200 species, or the photo may be unclear.</div>
+        <h3>Top 5</h3>
+        <ol class="top5" id="top5"></ol>
+        <p class="muted small" id="timing"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card how">
+    <h2>How it works</h2>
+    <svg viewBox="0 0 860 120" width="100%" role="img" aria-label="Photo, resize and centre crop, CNN, probabilities and heatmap.">
+      <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" class="arrowhead"/></marker></defs>
+      <g class="node"><rect x="5" y="30" width="140" height="60" rx="8"/><text x="75" y="57">Your photo</text><text x="75" y="75" class="sm">stays on device</text></g>
+      <g class="node"><rect x="190" y="30" width="160" height="60" rx="8"/><text x="270" y="57">Resize + crop</text><text x="270" y="75" class="sm">224×224, normalise</text></g>
+      <g class="node hl"><rect x="395" y="30" width="170" height="60" rx="8"/><text x="480" y="57" id="howModel">CNN</text><text x="480" y="75" class="sm">ONNX Runtime Web</text></g>
+      <g class="node"><rect x="610" y="5" width="245" height="45" rx="8"/><text x="732" y="33">Softmax → top-5 species</text></g>
+      <g class="node"><rect x="610" y="70" width="245" height="45" rx="8"/><text x="732" y="98">Class activation map → heatmap</text></g>
+      <g class="edge"><path d="M145,60 H188" marker-end="url(#a)"/><path d="M350,60 H393" marker-end="url(#a)"/><path d="M565,55 L608,30" marker-end="url(#a)"/><path d="M565,65 L608,92" marker-end="url(#a)"/></g>
+    </svg>
+    <p class="muted small">Trained in PyTorch on 4,829 photos, exported to ONNX. No server: GitHub Pages only serves files, and your browser runs the network.</p>
+  </section>
+</main>
+
+<footer class="wrap muted small">COS30082 Assignment 1 · Terence Chin Seng Wong (104404059)</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

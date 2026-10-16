@@ -1,0 +1,20 @@
+# Dataset (course material, 680 MB) - not redistributed
+Train/
+Test/
+*.zip
+train.txt
+test.txt
+Assignment1_v2.pdf
+
+# Environment / caches
+.venv/
+__pycache__/
+*.pyc
+
+# Training outputs: keep metrics + curves, drop large checkpoints and raw scores
+runs/**/*.pt
+runs/**/*.npz
+logs/
+
+# Personal planning notes
+plan.html

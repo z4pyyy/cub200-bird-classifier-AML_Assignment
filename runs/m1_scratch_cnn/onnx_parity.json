@@ -1,0 +1,24 @@
+{
+  "model": "scratch_cnn",
+  "run": "m1_scratch_cnn",
+  "file_mb": 9.64,
+  "fp16_weights": true,
+  "top1_agreement": 1.0,
+  "max_abs_prob_diff": 0.000572502613067627,
+  "onnx_test": {
+    "top1": 0.5772425249169435,
+    "avg_class_acc": 0.5643154761904762,
+    "top5": 0.8131229235880398
+  },
+  "pytorch_test": {
+    "top1": 0.5772425249169435,
+    "avg_class_acc": 0.5643154761904762,
+    "top5": 0.8131229235880398
+  },
+  "cam_shape": [
+    1,
+    200,
+    7,
+    7
+  ]
+}
