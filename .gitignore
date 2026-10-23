@@ -19,10 +19,6 @@ logs/
 # Personal planning notes
 plan.html
 
-# Report build tooling
-report/node_modules/
-report/package-lock.json
-report/preview/
-report/*.docx
-report/*.pdf
-report/~$*
+# Report and presentation: submitted on Canvas, not published
+report/
+slides/
